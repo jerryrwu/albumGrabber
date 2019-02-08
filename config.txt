@@ -1,0 +1,3 @@
+root;C:\Users\jerryrw19\Music
+location;us
+resolution;default
