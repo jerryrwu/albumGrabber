@@ -1,8 +1,7 @@
 import os
 import requests
 import json
-import eyed3
-import eyed3.id3
+import mutagen
 import urllib.request
 from PIL import Image
 import PIL
@@ -47,9 +46,9 @@ for album in albums:
     artist = ""
     albumName = ""
     if len(songs) > 0:
-        audiofile = eyed3.load(songs[0])
-        artist = audiofile.tag.artist
-        albumName = audiofile.tag.album
+        audiofile = mutagen.File(songs[0])
+        artist = audiofile.tags["TPE1"].text[0]
+        albumName = audiofile.tags["TALB"].text[0]
     url = "https://itunes.apple.com/search?term="+albumName + "&entity=album&country=" + dict['location']
     results = requests.get(url).json()['results']
     locationOfFolderJPG = album + "/folder.jpg"
