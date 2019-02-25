@@ -8,7 +8,6 @@ import PIL
 config = open('config.txt')
 dict = {
 }
-#saves photo. Needs location to put it including folder.jpg
 def saveSong(location, photoURL):
     f = open(location, 'wb')
     f.write(requests.get(photoURL).content)
@@ -26,6 +25,7 @@ with config as f:
     for line in f:
         pair = line.split(';')
         dict[pair[0]] = pair[1].rstrip('\n')
+extensions = dict['extensions'].split(',')
 
 rootDirectory = os.listdir(dict["root"])
 albums = []
@@ -37,16 +37,21 @@ for album in albums:
     albumDir = os.listdir(album)
     if "folder.jpg" in albumDir:
         continue
-    songs = []
+    songs = ""
     for song in albumDir:
-        if ".flac" in song:
-            songs.append(os.path.join(album,song))
-        if ".mp3" in song:
-            songs.append(os.path.join(album,song))
+        exts = song.split('.')
+        ext = exts[len(exts)-1]
+        if ext in extensions:
+            songs=os.path.join(album,song)
+            break
+##        if ".flac" in song:
+##            songs.append(os.path.join(album,song))
+##        if ".mp3" in song:
+##            songs.append(os.path.join(album,song))
     artist = ""
     albumName = ""
-    if len(songs) > 0:
-        audiofile = mutagen.File(songs[0])
+    if songs is not "":
+        audiofile = mutagen.File(songs)
         artist = audiofile.tags["TPE1"].text[0]
         albumName = audiofile.tags["TALB"].text[0]
     url = "https://itunes.apple.com/search?term="+albumName + "&entity=album&country=" + dict['location']
