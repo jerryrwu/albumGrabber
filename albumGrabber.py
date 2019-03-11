@@ -5,9 +5,13 @@ import mutagen
 import urllib.request
 from PIL import Image
 import PIL
+import math
 config = open('config.txt')
 dict = {
 }
+fullList = []
+def listSong(location, photoURL):
+    fullList.append([location,photoURL])
 def saveSong(location, photoURL):
     f = open(location, 'wb')
     f.write(requests.get(photoURL).content)
@@ -29,10 +33,13 @@ extensions = dict['extensions'].split(',')
 
 rootDirectory = os.listdir(dict["root"])
 albums = []
-#todo make this all subdirectories that contains music
-for item in rootDirectory:
-    if os.path.isdir(os.path.join(dict["root"],item)):
-        albums.append(os.path.join(dict["root"],item))
+for root, dirs, files in os.walk(dict["root"]):
+    albums.append(root)
+            
+##for item in rootDirectory:
+##    if os.path.isdir(os.path.join(dict["root"],item)):
+##        albums.append(os.path.join(dict["root"],item))
+
 for album in albums:
     albumDir = os.listdir(album)
     if "folder.jpg" in albumDir:
@@ -44,10 +51,8 @@ for album in albums:
         if ext in extensions:
             songs=os.path.join(album,song)
             break
-##        if ".flac" in song:
-##            songs.append(os.path.join(album,song))
-##        if ".mp3" in song:
-##            songs.append(os.path.join(album,song))
+    if songs is "":
+        continue
     artist = ""
     albumName = ""
     if songs is not "":
@@ -71,17 +76,45 @@ for album in albums:
     if len(exactMatch) == 1:
         thisURL = exactMatch[0]['artworkUrl100']
         thisURL = thisURL.replace("100x100bb","100000x100000-999")
-        saveSong(locationOfFolderJPG, thisURL)
+        listSong(locationOfFolderJPG, thisURL)
         unfinished = False
 
 
-
     if unfinished:
-        print("0 - skip")
+        pages = []
+        page = []
         for index in range(len(results)):
-            print(str(index + 1) + " - " + results[index]['collectionName'] + " - " + results[index]['artistName'] + " - " +  results[index]['releaseDate'])
-        inputs = input("No match found for " + albumName +" - " + artist + "." +" Choose one: ")
-        #todo tighten edge cases. Maybe have it show 10 at a time(Optional)
-
-        if inputs is not "0":
-            saveSong(locationOfFolderJPG,results[int(inputs) - 1]['artworkUrl100'].replace("100x100bb","100000x100000-999"))
+            page.append(results[index])
+            if len(page) is 8:
+                pages.append(page)
+                page = []
+        if len(page) is not 0:
+            pages.append(page)
+        pageIndex = 0
+        while(True):
+            print("0 - skip")
+            myPage = pages[pageIndex]
+            for index in range(len(myPage)):
+                print(str(index+1) + " - " + myPage[index]['collectionName'] + " - " + myPage[index]['artistName'] + " - " +  myPage[index]['releaseDate'])                     
+            print("n = next page, p = previous page")
+            inputs = input("choose one for " + albumName +" - " + artist + ".")
+            if inputs is "n":
+                if pageIndex is len(pages)-1:
+                    continue
+                pageIndex+= 1
+                continue
+            if inputs is "p":
+                if pageIndex is not 0:
+                    pageIndex-= 1
+                    continue
+                continue
+            if inputs is "0":
+                break
+            listSong(locationOfFolderJPG,myPage[int(inputs) - 1]['artworkUrl100'].replace("100x100bb","100000x100000-999"))
+            break
+for lists in fullList:
+    saveSong(lists[0],lists[1])
+print("done")
+log = input("printLog? y/n")
+if log is "y":
+    print(fullList)
