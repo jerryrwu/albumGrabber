@@ -166,11 +166,3 @@ vn: 'Vietnam',
 ye: 'Yemen',
 za: 'South Africa',
 zw: 'Zimbabwe'
-
-What is next?
-
-Allowing nested folders to be detected(for example, album/disc1 and album/disc2 to both get a folder.jpg)
-
-Do all user input at once and then generate images later
-
-Make the user selection a n number list(chosen by user) so it takes up less space. The user would be able to traverse different pages of the list
