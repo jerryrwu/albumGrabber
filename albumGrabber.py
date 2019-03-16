@@ -56,9 +56,16 @@ for album in albums:
     artist = ""
     albumName = ""
     if songs is not "":
-        audiofile = mutagen.File(songs)
-        artist = audiofile.tags["TPE1"].text[0]
-        albumName = audiofile.tags["TALB"].text[0]
+        songss = songs.replace(os.sep, '/')
+        audiofile = mutagen.File(songss)
+        artist = ''
+        albumName = ''
+        try:
+            artist = audiofile.tags["TPE1"].text[0]
+            albumName = audiofile.tags["TALB"].text[0]
+        except:
+            artist = audiofile.tags['ALBUMARTIST'][0]
+            albumName = audiofile.tags['ALBUM'][0]
     url = "https://itunes.apple.com/search?term="+albumName + "&entity=album&country=" + dict['location']
     results = requests.get(url).json()['results']
     locationOfFolderJPG = album + "/folder.jpg"
