@@ -10,6 +10,18 @@ config = open('config.txt')
 dict = {
 }
 fullList = []
+def makeRequest(url):
+    maxTries = 3
+    numTries = 0
+    while True:
+        response = requests.get(url)
+        if response.status_code is not 200:
+            numTries+=1
+            if numTries < maxTries:
+                return [response,'-1']
+            continue
+        return [response,'0']
+
 def listSong(location, photoURL):
     fullList.append([location,photoURL])
 def saveSong(location, photoURL):
@@ -64,14 +76,23 @@ for album in albums:
             artist = audiofile.tags["TPE1"].text[0]
             albumName = audiofile.tags["TALB"].text[0]
         except:
-            artist = audiofile.tags['ALBUMARTIST'][0]
-            albumName = audiofile.tags['ALBUM'][0]
+            try:
+                artist = audiofile.tags['ALBUMARTIST'][0]
+                albumName = audiofile.tags['ALBUM'][0]
+            except:
+                artist = audiofile.tags['artist'][0]
+                albumName = audiofile.tags['album'][0]
     url = "https://itunes.apple.com/search?term="+albumName + "&entity=album&country=" + dict['location']
-    results = requests.get(url).json()['results']
-    locationOfFolderJPG = album + "/folder.jpg"
-
-
-
+    myRequest = makeRequest(url)
+    if myRequest[1] is '-1':
+        continue
+    try:
+        results = myRequest.json()['results']
+        locationOfFolderJPG = album + "/folder.jpg"
+        if len(result) is 0:
+            continue
+    except:
+        continue
     unfinished = True
     exactMatch = []
     for result in results:

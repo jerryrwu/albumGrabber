@@ -1,4 +1,4 @@
-root;C:\Users\jerryrw19\Music
+root;C:\Users\jerry\desktop\Music Folder Test
 location;us
 resolution;default
 extensions;mp3,flac
