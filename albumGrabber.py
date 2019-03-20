@@ -11,22 +11,6 @@ dict = {
 }
 fullList = []
 errorLog = []
-successLog = []
-
-"""
-def makeRequest(url):
-    maxTries = 3
-    numTries = 0
-    while True:
-        response = requests.get(url)
-        if response.status_code is not 200:
-            numTries+=1
-            if numTries < maxTries:
-                return [response,'-1']
-            continue
-        return [response,'0']
-"""
-
 def listSong(location, photoURL):
     fullList.append([location,photoURL])
 def saveSong(location, photoURL):
@@ -47,16 +31,10 @@ with config as f:
         pair = line.split(';')
         dict[pair[0]] = pair[1].rstrip('\n')
 extensions = dict['extensions'].split(',')
-
 rootDirectory = os.listdir(dict["root"])
 albums = []
 for root, dirs, files in os.walk(dict["root"]):
     albums.append(root)
-            
-##for item in rootDirectory:
-##    if os.path.isdir(os.path.join(dict["root"],item)):
-##        albums.append(os.path.join(dict["root"],item))
-
 for album in albums:
     albumDir = os.listdir(album)
     if "folder.jpg" in albumDir:
