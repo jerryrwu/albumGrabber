@@ -1,0 +1,4 @@
+root;W:/convertedMusic
+location;us
+resolution;default
+extensions;mp3,flac
