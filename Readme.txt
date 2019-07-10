@@ -1,14 +1,72 @@
-# albumGrabber
-itunes album art grabber. Creates a folder.jpg in an album folder
+How to use:
 
+1. configure script using config.txt
+    - root means the location of your library
 
-for resolution:
+        example:
 
-resolution;default
-^^ this means whatever it gives
+        root;C:/Users/Administrator/Music
 
-resolution;600
-^^ The number is the base edge length
+    - location means where you are
+
+        example:
+
+        location;us
+        ^this means you are in the united states
+
+        see below for the country code list
+
+    - resolution means how big your image is
+
+        example:
+
+        resolution;600
+        ^ this means it will be a 600x600 square
+
+        resolution;default
+        ^this means it will use the biggest available image
+
+    - extensions means what extensions will be considered Music
+
+        example:
+
+        extensions;mp3,flac
+        ^this means that flac and mp3 files will be considered song files
+
+        Other extensions MAY OR MAY NOT WORK depending on how they store the metadata
+
+2. Install dependencies
+    This python script requires some external tools to help it run 
+
+    double-click install.bat
+        In case you were wondering what this does, it installs pip, a tool that assists installation of other tools
+        It then uses pip to install the following dependencies:
+            requests
+            json
+            mutagen
+            math
+            PIL
+    
+3. Run program
+    
+    double-click run.bat
+        This batch file will then open run.py which uses albumGrabberOOP.py
+    
+    Wait for it to go through your entire library and find images online. Will take approximately 3 seconds per album in the library
+    
+    Afterwards, it will allow you to pick from a list of possible albums. This is because there could be some differences in naming,
+    for example, blink-182 and Blink - 182
+
+    Sometimes it will be unable to find a song. That is okay, you can manually search for it using the included functionality
+
+    At the end, it will download and save all the songs as folder.jpg. 
+
+4. Attach image to songs
+
+    If you would like your image to be attached to the song, you can use tools such as:
+        Album Cover Applier
+        Tag&Rename
+    These are both tools that are capable of embedding the image into the actual music file.
 
 For country: 
 ae: 'United Arab Emirates',
@@ -166,3 +224,6 @@ vn: 'Vietnam',
 ye: 'Yemen',
 za: 'South Africa',
 zw: 'Zimbabwe'
+
+
+

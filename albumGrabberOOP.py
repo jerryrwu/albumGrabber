@@ -256,7 +256,3 @@ class albumGetter:
         self.saveStagedArt()
         self.writeErrorFile()
         input("done")
-
-
-instance = albumGetter()
-instance.start()
