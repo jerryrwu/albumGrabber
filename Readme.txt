@@ -1,5 +1,7 @@
 How to use:
 
+Download the folder Executbale Version. Edit the config.txt folder. Double click run.exe.
+
 1. configure script using config.txt
     - root means the location of your library
 
@@ -14,7 +16,7 @@ How to use:
         location;us
         ^this means you are in the united states
 
-        see below for the country code list
+        see bottom for the country code list
 
     - resolution means how big your image is
 
@@ -34,6 +36,18 @@ How to use:
         ^this means that flac and mp3 files will be considered song files
 
         Other extensions MAY OR MAY NOT WORK depending on how they store the metadata
+        
+        
+        
+###################################################################################################################
+###################################################################################################################
+###                             IF YOU ARE USING THE EXECUTABLE VERSION, IGNORE BELOW                           ###        
+###################################################################################################################
+###################################################################################################################
+
+
+
+
 
 2. Install dependencies
     This python script requires some external tools to help it run 
